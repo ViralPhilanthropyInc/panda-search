@@ -90,3 +90,25 @@ gulp.task('default', ['buildJS', 'buildCSS', 'copyFonts', 'staticServer'], funct
         buildCSS(true)
     );
 });
+
+var home = require('homedir')();
+var rubberSecret = require('yamljs')
+    .load(
+        home + '/.rubber-panda-server-production/rubber-secret.yml'
+    );
+
+var aws = {
+    accessKeyId: rubberSecret.cloud_providers.aws.access_key,
+    secretAccessKey: rubberSecret.cloud_providers.aws.secret_access_key
+};
+
+var s3 = require('gulp-s3-upload')(aws);
+
+gulp.task('upload', function() {
+    return gulp
+        .src(['./dist/js/*', './dist/css/*', 'index.html'])
+        .pipe(s3({ Bucket: 'panda-search', ACL: 'public-read' }));
+});
+
+gulp.task('release', ['buildJS', 'buildCSS', 'upload'], function() { });
+
