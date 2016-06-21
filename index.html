@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PandaSearch</title>
+
+  <link rel="stylesheet" href="http://cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.css">
+  <link rel="stylesheet" href="/dist/css/app.css">
+  <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body class="r">
+  <nav class="navbar navbar-inverse normal" role="navigation">
+
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">PandaSearch</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <form class="navbar-form navbar-center">
+        <div class="form-group" id="search-input">
+          <!-- instantsearch.js will create the search widget here -->
+        </div>
+      </form>
+    </div>
+
+  </nav>
+
+  <!-- Main view  -->
+  <div class="container" id="main">
+    <div id="left-column">
+      <div id="category" class="facet"></div>
+      <div id="brand" class="facet"></div>
+      <div id="price" class="facet"></div>
+      <div id="type" class="facet"></div>
+    </div>
+
+
+    <div id="right-column">
+      <div id="sort-by-wrapper">
+        <span id="sort-by"></span>
+      </div>
+      <div id="stats"></div>
+      <div id="hits"></div>
+      <div id="pagination"></div>
+    </div>
+  </div>
+
+  <script type="text/html" id="hit-template">
+    <div class="hit">
+      <div class="hit-content">
+        <h2 class="hit-name">{{{_highlightResult.name.value}}}</h2>
+        <p class="hit-description">
+          {{ein}}
+        </p>
+        <p class="hit-description">
+          {{address.address}}<br/>
+          {{#address.address2}}
+          {{address.address2}}<br/>
+          {{/address.address2}}
+          {{address.city}}, {{address.state}} {{address.zip}}
+        </p>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="no-results-template">
+    <div id="no-results-message">
+      <p>We didn't find any results for the search <em>"{{query}}"</em>.</p>
+      <a href="." class="clear-all">Clear search</a>
+    </div>
+  </script>
+
+  <div id="footer" class="">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3 copyright">
+          Viral Philanthropy Inc &copy; 2016
+        </div>
+        <div class="col-sm-9 menu">
+          <ul>
+            <li>
+              <a href="https://www.pandapay.io">Home</a>
+            </li><li>
+              <a href="https://www.pandapay.io/features">Features</a>
+            </li><li>
+              <a href="https://www.pandapay.io/pricing">Pricing</a>
+            </li><li>
+              <a href="https://www.pandapay.io/mission">Mission</a>
+            </li><li>
+              <a href="https://www.pandapay.io/docs">Documentation</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="dist/js/app.js"></script>
+</body>
+</html>

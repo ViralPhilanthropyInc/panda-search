@@ -1,0 +1,15 @@
+#search-input {
+    width: 40%;
+
+    .ais-search-box--input {
+        width: 100%;
+    }
+}
+
+#main {
+    min-height: 600px;
+
+    .hit {
+        border-bottom: solid black 1px;
+    }
+}
