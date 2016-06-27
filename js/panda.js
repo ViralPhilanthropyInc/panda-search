@@ -1,8 +1,8 @@
 var Panda = window.Panda;
 var $ = require('jquery');
-var donations = require('./donations');
+var donationForm = require('./donation-form');
 
-var $donateModal = donations.$donateModal;
+var $donateModal = donationForm.$donateModal;
 var $thanksModal = $('#thanks_modal');
 
 module.exports.$thanksModal = $thanksModal;
@@ -35,17 +35,17 @@ module.exports.init = function() {
                 $donateModal.modal('hide');
 
                 $thanksModal.find('.thanks-amount').html('$' + (amount() / 100) + '.00');
-                $thanksModal.find('.thanks-name').html(donations.charityName);
+                $thanksModal.find('.thanks-name').html(donationForm.charityName);
                 $thanksModal.find('.thanks-email').html(receiptEmail());
 
                 $thanksModal.modal();
             })
             .fail(function(resp) {
-                donations.errors(resp.responseJSON.errors);
+                donationForm.errors(resp.responseJSON.errors);
             });
     });
 
     Panda.on('error', function(errors) {
-        donations.errors(errors);
+        donationForm.errors(errors);
     });
 };

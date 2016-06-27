@@ -1,5 +1,5 @@
 require('./globals').init();
 require('./search').init();
-require('./donations').init();
+require('./donation-form').init();
 require('./panda').init();
 
