@@ -7,21 +7,14 @@ module.exports.init = function(port) {
 
     http.createServer(function(request, response) {
         var uri = url.parse(request.url).pathname
-        , filename = path.join(process.cwd(), uri);
+        , filename = path.join(process.cwd(), '/dist/', uri);
 
         fs.exists(filename, function(exists) {
             if(!exists) {
-                filename = "index.html";
-               /*
-               console.log("No such file: "+filename);
-               response.writeHead(404, {"Content-Type": "text/plain"});
-               response.write(uri+ " Not found\n");
-               response.end();
-               return;
-               */
+                filename = "dist/index.html";
             }
 
-            console.log("Serving "+uri+" as: "+filename);
+            //console.log("Serving "+ uri +" as: "+ filename);
 
             if (fs.statSync(filename).isDirectory()) filename += '/index.html';
 

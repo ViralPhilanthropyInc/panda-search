@@ -14,6 +14,7 @@ var staticServer = require('./static-server');
 var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
+var replace = require('gulp-replace');
 
 var buildDir = './dist';
 
@@ -69,6 +70,33 @@ function buildCSS(watch) {
         .pipe(gulp.dest(buildDir + '/css/'));
 };
 
+function buildHTML(watch, useMinified) {
+    if(watch) {
+        gulp.watch('index.html', ['buildDevelopmentHTML']);
+    }
+
+    if(useMinified) {
+        var appCSSPath = "css/app.min.css";
+        var appJSPath = "js/app.min.js";
+    } else {
+        var appCSSPath = "css/app.css";
+        var appJSPath = "js/app.js";
+    }
+
+    return gulp.src('index.html')
+        .pipe(replace('__APP_CSS_PATH__', appCSSPath))
+        .pipe(replace('__APP_JS_PATH__', appJSPath))
+        .pipe(gulp.dest(buildDir));
+};
+
+gulp.task('buildDevelopmentHTML', function() {
+    return buildHTML(true, false);
+});
+
+gulp.task('buildProductionHTML', function() {
+    return buildHTML(false, true);
+});
+
 gulp.task('buildJS', function() {
     return buildJS(false);
 });
@@ -103,7 +131,15 @@ gulp.task('staticServer', function() {
     staticServer.init();
 });
 
-gulp.task('default', ['buildJS', 'buildCSS', 'copyFonts', 'staticServer'], function() {
+gulp.task('default',
+          [
+              'buildDevelopmentHTML',
+              'buildJS',
+              'buildCSS',
+              'copyFonts',
+              'staticServer'
+          ],
+          function() {
     return merge(
         buildJS(true),
         buildCSS(true)
@@ -124,9 +160,9 @@ var aws = {
 var s3 = require('gulp-s3-upload')(aws);
 var path = require('path');
 
-gulp.task('release', ['buildJS', 'buildCSS', 'minifyCSS', 'minifyJS'], function() {
+gulp.task('release', ['buildProductionHTML', 'buildJS', 'buildCSS', 'minifyCSS', 'minifyJS'], function() {
     return gulp
-        .src(['./dist/js/*', './dist/css/*', 'index.html'])
+        .src(['./dist/js/*', './dist/css/*', 'dist/index.html'])
         .pipe(s3(
             {
                 Bucket: 'panda-search',
@@ -137,8 +173,7 @@ gulp.task('release', ['buildJS', 'buildCSS', 'minifyCSS', 'minifyJS'], function(
                     } else {
                         var subDir = path.extname(relativeFilename).replace('.', '');
 
-                        return 'dist/' +
-                            subDir +
+                        return subDir +
                             '/' +
                             relativeFilename;
                     }
