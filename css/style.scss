@@ -1,4 +1,4 @@
-#search-input {
+#search_input {
     width: 40%;
 
     .ais-search-box--input {
@@ -13,3 +13,14 @@
         border-bottom: solid black 1px;
     }
 }
+
+#donate_modal, #thanks_modal {
+    z-index: 19999;
+}
+
+body {
+    div.modal-backdrop.fade.in {
+        z-index: 19989;
+    }
+}
+

@@ -25,7 +25,9 @@
     "yamljs": "^0.2.7"
   },
   "dependencies": {
+    "bootstrap": "^3.3.6",
     "instantsearch.js": "^1.6.1",
+    "jquery": "^3.0.0",
     "lodash": "^4.13.1",
     "object-assign": "^4.1.0"
   }

@@ -11,6 +11,7 @@
   <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
+  <script type="text/javascript" src="//d2t45z63lq9zlh.cloudfront.net/panda-v0.0.5.min.js"></script>
 </head>
 
 <body class="r">
@@ -26,7 +27,7 @@
     </div>
     <div class="collapse navbar-collapse">
       <form class="navbar-form navbar-center">
-        <div class="form-group" id="search-input">
+        <div class="form-group" id="search_input">
           <!-- instantsearch.js will create the search widget here -->
         </div>
       </form>
@@ -54,7 +55,7 @@
     </div>
   </div>
 
-  <script type="text/html" id="hit-template">
+  <script type="text/html" id="hit_template">
     <div class="hit">
       <div class="hit-content">
         <h2 class="hit-name">{{{_highlightResult.name.value}}}</h2>
@@ -68,12 +69,17 @@
           {{/address.address2}}
           {{address.city}}, {{address.state}} {{address.zip}}
         </p>
+        <p class="hit-description">
+          <button class="btn btn-primary btn-small" data-donate-ein="{{ein}}" data-donate-name="{{name}}">
+            Donate
+          </button>
+        </p>
       </div>
     </div>
   </script>
 
-  <script type="text/html" id="no-results-template">
-    <div id="no-results-message">
+  <script type="text/html" id="no_results_template">
+    <div id="no_results_message">
       <p>We didn't find any results for the search <em>"{{query}}"</em>.</p>
       <a href="." class="clear-all">Clear search</a>
     </div>
@@ -103,6 +109,99 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="donate_modal">
+    <div class="modal-dialog">
+      <p>
+        <form>
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">
+                <!-- Populated via js -->
+              </h4>
+            </div>
+            <div class="modal-body">
+              <div class="form-group alert alert-danger errors">
+              </div>
+
+              <div class="form-group">
+                <label>Amount <small>(in dollars)</small></label>
+                <div class="input-group">
+                  <div class="input-group-addon">$</div>
+                  <input type="text" class="form-control amount-in-dollars" placeholder="10">
+                  <div class="input-group-addon">.00</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" class="form-control" data-panda="first_name">
+              </div>
+
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control" data-panda="last_name">
+              </div>
+
+              <div class="form-group">
+                <label>Your email <small>(required for your tax receipt)</small></label>
+                <input type="email" class="form-control" placeholder="your@email.com" name="receipt_email">
+              </div>
+
+              <div class="form-group">
+                <label>Credit Card Number</label>
+                <input type="text" class="form-control" data-panda="credit_card">
+              </div>
+
+              <div class="form-group">
+                <label>Expiration</label>
+                <input type="text" class="form-control" data-panda="expiration">
+              </div>
+
+              <div class="form-group">
+                <label>CVV</label>
+                <input type="text" class="form-control" data-panda="cvv">
+              </div>
+
+              <input type="hidden" name="source" />
+              <input type="hidden" name="destination" />
+              <input type="hidden" name="amount" />
+              <input type="hidden" name="currency" value="usd" />
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Donate</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </form>
+      </p>
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="thanks_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">
+              Thank you for your generous donation!
+            </h4>
+          </div>
+          <div class="modal-body">
+            <p>
+              Your <strong class="thanks-amount"></strong> donation to <strong class="thanks-name"></strong> has been successfully processed.
+              You should receive a tax receipt at <strong class="thanks-email"></strong> shortly.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
   <script src="dist/js/app.js"></script>
 </body>
 </html>
