@@ -11,6 +11,9 @@ var scss = require('gulp-scss');
 var merge = require('merge-stream');
 var concat = require('gulp-concat');
 var staticServer = require('./static-server');
+var cleanCSS = require('gulp-clean-css');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
 
 var buildDir = './dist';
 
@@ -67,11 +70,27 @@ function buildCSS(watch) {
 };
 
 gulp.task('buildJS', function() {
-    return buildJS('app.js', false);
+    return buildJS(false);
 });
 
 gulp.task('buildCSS', function() {
     return buildCSS(false);
+});
+
+gulp.task('minifyCSS', ['buildCSS'], function() {
+    return gulp.src(buildDir + '/css/app.css')
+        .pipe(cleanCSS({
+            processImport: false
+        }))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest(buildDir + '/css/'));
+});
+
+gulp.task('minifyJS', ['buildJS'], function() {
+    return gulp.src(buildDir + '/js/app.js')
+        .pipe(uglify())
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest(buildDir + '/js/'));
 });
 
 gulp.task('copyFonts', function() {
@@ -103,12 +122,27 @@ var aws = {
 };
 
 var s3 = require('gulp-s3-upload')(aws);
+var path = require('path');
 
-gulp.task('upload', function() {
+gulp.task('release', ['buildJS', 'buildCSS', 'minifyCSS', 'minifyJS'], function() {
     return gulp
         .src(['./dist/js/*', './dist/css/*', 'index.html'])
-        .pipe(s3({ Bucket: 'panda-search', ACL: 'public-read' }));
+        .pipe(s3(
+            {
+                Bucket: 'panda-search',
+                ACL: 'public-read',
+                keyTransform: function(relativeFilename) {
+                    if(relativeFilename.match(/\.html$/)) {
+                        return relativeFilename;
+                    } else {
+                        var subDir = path.extname(relativeFilename).replace('.', '');
+
+                        return 'dist/' +
+                            subDir +
+                            '/' +
+                            relativeFilename;
+                    }
+                }
+            }
+        ));
 });
-
-gulp.task('release', ['buildJS', 'buildCSS', 'upload'], function() { });
-
