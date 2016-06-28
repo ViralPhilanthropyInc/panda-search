@@ -37,21 +37,27 @@
 
   <!-- Main view  -->
   <div class="container" id="main">
-    <div id="left-column">
-      <div id="category" class="facet"></div>
-      <div id="brand" class="facet"></div>
-      <div id="price" class="facet"></div>
-      <div id="type" class="facet"></div>
-    </div>
-
-
-    <div id="right-column">
-      <div id="sort-by-wrapper">
-        <span id="sort-by"></span>
+    <div class="row">
+      <div id="welcome" class="col-xs-12">
+        <p>
+          Welcome to PandaSearch!  From here you can make a donation to any charity in the US!  Use the search bar above to get started.
+        </p>
       </div>
-      <div id="stats"></div>
-      <div id="hits"></div>
-      <div id="pagination"></div>
+
+      <div class="col-xs-3" id="sidenav">
+        <div id="state" class="facet"></div>
+        <div id="classification" class="facet"></div>
+      </div>
+
+
+      <div class="col-xs-9" id="results_container">
+        <div id="sort-by-wrapper">
+          <span id="sort-by"></span>
+        </div>
+        <div id="stats"></div>
+        <div id="hits"></div>
+        <div id="pagination"></div>
+      </div>
     </div>
   </div>
 

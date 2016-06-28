@@ -1,10 +1,28 @@
 var instantsearch = require('instantsearch.js');
+var $ = require('jquery');
 
 exports.init = function() {
     var search = instantsearch({
         appId: 'EZ0RKGG8TJ',
         apiKey: 'c8a2dbd3c43a16b24b63d52875582b7e',
-        indexName: 'Publication78'
+        indexName: 'Publication78',
+        searchFunction: function(helper) {
+            var $resultsContainer = $('#results_container');
+            var $sidenav = $('#sidenav');
+            var $welcomeMessage = $('#welcome');
+
+            if (helper.state.query === '') {
+                $resultsContainer.hide();
+                $welcomeMessage.show();
+
+                return;
+            }
+
+            $welcomeMessage.hide();
+
+            helper.search();
+            $resultsContainer.show();
+        }
     });
 
     var getTemplate = function(id) {
@@ -23,6 +41,17 @@ exports.init = function() {
             }
         })
     );
+
+    /*
+    search.addWidget(
+        instantsearch.widgets.menu({
+            container: '#state',
+            attributeName: 'npo.business_master.state',
+            sortBy: ['name:asc'],
+            limit: 100
+        })
+    );
+*/
 
     var address = function(result) {
         if(result.npo) {
@@ -77,4 +106,3 @@ exports.init = function() {
 
     search.start();
 };
-
