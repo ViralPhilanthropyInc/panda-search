@@ -8,17 +8,17 @@ The contents of `js/` are the entirety of the webapp, which are transformed into
 It is currently deployed to an s3 bucket http://panda-search.s3-website-us-east-1.amazonaws.com/.
 It's two data sources are
 
-* *Algolia* - Uses Algolia's [instantsearch.js](https://www.algolia.com/doc/guides/search/instant-search/)
-* *PandaPay Donations API* - Uses the [PandaPay Donations API](https://www.pandapay.io/docs#settingupapi)
+* **Algolia** - Uses Algolia's [instantsearch.js](https://www.algolia.com/doc/guides/search/instant-search/)
+* **PandaPay Donations API** - Uses the [PandaPay Donations API](https://www.pandapay.io/docs#settingupapi)
 
 # static-server.js
 
 A static nodejs webserver for local development, or deployment to a non-S3 web app host.  The server can be run locally with:
 
-`
-# server runs at http://localhost:$PORT, where $PORT defaults to 8000
-> node static-server.js
-`
+```
+  # server runs at http://localhost:$PORT, where $PORT defaults to 8000
+  > node static-server.js
+```
 
 # index.html
 
@@ -30,7 +30,7 @@ Browserify entrypoint.  This just `require`s and initializes everything else
 
 # js/donation-form.js
 
-Handles all javascript events for the donation form, and the event handler for the *Donate* buttons.  Used by *js/panda.js*
+Handles all javascript events for the donation form, and the event handler for the **Donate** buttons.  Used by **js/panda.js**
 
 # js/globals.js
 
@@ -38,7 +38,7 @@ Sets up jQuery and Bootstrap.  Ideally, jQuery wouldn't be global, but as of the
 
 # js/panda.js
 
-Renders donation forms (using *js/donation-form.js) and handles all AJAX calls to the PandaPay Donations API
+Renders donation forms (using **js/donation-form.js**) and handles all AJAX calls to the PandaPay Donations API
 
 # js/search.js
 
